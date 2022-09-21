@@ -44,17 +44,16 @@ jobs:
         run: npm ci -ws --include-workspace-root
       
       - name: Set version to publish
-        run: npm version -ws --no-commit-hooks --no-git-tag-version --include-workspace-root ${{ env.version }}
+        run: npm exec lerna -- version --yes --no-commit-hooks --no-git-tag-version --no-push ${{ env.version }}
       
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish -ws
+        run: npm exec lerna -- publish from-package --yes
       
       - name: Push changes
         run: |
-          version=$(npm pkg get version)
-          version=${version:1:-1}
+          version=$(node -p 'require("./lerna.json").version')
           git add .
           git commit -m $version
           git tag -a v$version -m $version
