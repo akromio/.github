@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  workflow_call:
+
+jobs:
+  runTests:
+    name: Go ${{ matrix.go }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node: [1.19]
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Go ${{ matrix.node }}
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+      
+      - name: Linter
+        run: |
+          files=$(gofmt -l -w .)
+          if [ "$files" != '' ]; then
+            printf "The following files have been modified: ${files/$'\n'/, }\n"
+            exit 1
+          fi
+      
+      - name: Run tests
+        run: |
+          coverage=$(go test ./modules/* -covermode count -coverprofile coverage | grep -v 'coverage: 100.0%')
+          if [[ "$coverage" != "" ]]; then
+            go tool cover -func=coverage | grep -v "100.0"
+            exit 1
+          fi
