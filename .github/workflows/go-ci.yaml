@@ -34,7 +34,7 @@ jobs:
           error=0
 
           for module in ./modules/*; do
-            coverage=$(go test $module/... -covermode count -coverprofile coverage | grep -v 'coverage: 100.0%')
+            coverage=$(go test $module/... -covermode count -coverprofile coverage | grep -v 'coverage: 100.0%' | cat)
 
             if [[ "$coverage" != "" ]]; then
               error=1
