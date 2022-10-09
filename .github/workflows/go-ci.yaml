@@ -24,6 +24,7 @@ jobs:
       - name: Linter
         run: |
           files=$(gofmt -l -w .)
+          
           if [ "$files" != '' ]; then
             printf "The following files have been modified: ${files/$'\n'/, }\n"
             exit 1
@@ -31,6 +32,7 @@ jobs:
       
       - name: Run tests
         run: |
+          # (1) run tests
           error=0
 
           for module in ./modules/*; do
@@ -42,4 +44,5 @@ jobs:
             fi
           done
 
+          # (2) return exit code
           exit $error
