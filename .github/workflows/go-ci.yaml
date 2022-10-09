@@ -22,6 +22,7 @@ jobs:
           go-version: ${{ matrix.go }}
       
       - name: Linter
+        if: runner.os == 'Linux'
         run: |
           files=$(gofmt -l -w .)
           
