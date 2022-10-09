@@ -31,8 +31,15 @@ jobs:
       
       - name: Run tests
         run: |
-          coverage=$(go test ./modules/* -covermode count -coverprofile coverage | grep -v 'coverage: 100.0%')
-          if [[ "$coverage" != "" ]]; then
-            go tool cover -func=coverage | grep -v "100.0"
-            exit 1
-          fi
+          error=0
+
+          for module in ./modules/*; do
+            coverage=$(go test $module/... -covermode count -coverprofile coverage | grep -v 'coverage: 100.0%')
+
+            if [[ "$coverage" != "" ]]; then
+              error=1
+              go tool cover -func=coverage | grep -v "100.0%"
+            fi
+          done
+
+          exit $error
