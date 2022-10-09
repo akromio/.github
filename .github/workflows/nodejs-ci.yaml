@@ -3,6 +3,13 @@ name: CI
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash -e {0}
+
 jobs:
   runTests:
     name: Node.js ${{ matrix.node }} on ${{ matrix.os }}
