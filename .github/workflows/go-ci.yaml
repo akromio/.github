@@ -3,6 +3,13 @@ name: CI
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   runTests:
     name: Go ${{ matrix.go }} on ${{ matrix.os }}
