@@ -1,0 +1,14 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - $default-branch
+      
+  pull_request:
+    branches:
+      - $default-branch
+
+jobs:
+  runTests:
+    uses: akromio/.github/.github/workflows/nodejs-ci.yaml@$default-branch
