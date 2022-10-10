@@ -1,0 +1,6 @@
+{
+  "name": "CI Workflow (Go)",
+  "description": "Continuous integration workflow.",
+  "categories": ["Go"],
+  "filePatterns": ["go.work$"]
+}
