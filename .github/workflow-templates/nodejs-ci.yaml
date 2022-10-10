@@ -11,4 +11,4 @@ on:
 
 jobs:
   runTests:
-    uses: akromio/.github/.github/workflows/nodejs-ci.yaml@$default-branch
+    uses: akromio/.github/.github/workflows/nodejs-ci.yaml@master

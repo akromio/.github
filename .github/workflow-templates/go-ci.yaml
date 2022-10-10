@@ -11,4 +11,4 @@ on:
 
 jobs:
   ci:
-    uses: akromio/.github/.github/workflows/go-ci.yaml@$default-branch
+    uses: akromio/.github/.github/workflows/go-ci.yaml@master
