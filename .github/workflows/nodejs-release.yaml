@@ -59,4 +59,4 @@ jobs:
           git commit -m $version
           git tag -a v$version -m $version
           git push --force
-          git push $v$version
+          git push v$version
