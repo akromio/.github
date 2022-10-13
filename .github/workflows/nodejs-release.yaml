@@ -54,6 +54,5 @@ jobs:
       
       - name: Push changes
         run: |
-          version=$(node -p 'require("./lerna.json").version')
           git push --force
-          git push v$version
+          git push origin --tags
