@@ -1,4 +1,4 @@
-name: Publish packages on NPM
+name: Release workflow (Node.js)
 
 on:
   workflow_call:
@@ -27,18 +27,19 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Set Git metadata
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Node.js ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           registry-url: https://registry.npmjs.org
-      
-      - name: Set Git metadata
-        run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
       
       - name: Install dependencies
         run: npm ci -ws --include-workspace-root
@@ -58,3 +59,4 @@ jobs:
           git commit -m $version
           git tag -a v$version -m $version
           git push --force
+          git push $v$version
