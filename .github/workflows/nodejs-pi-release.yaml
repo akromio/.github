@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  workflow_call:
+    inputs:
+      release:
+        description: Version type to publish (major, minor, patch...)
+        required: true
+        type: string
+    
+    secrets:
+      NPM_TOKEN:
+        description: Token to use for authN on NPM.
+        required: true
+
+env:
+  version: ${{ inputs.release }}
+
+jobs:
+  publish:
+    name: Publish packages
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node: [18.x]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Set Git metadata
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Install Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: https://registry.npmjs.org
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Set version to publish
+        run: npm version ${{ env.version }}
+      
+      - name: Publish packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
+      
+      - name: Push changes
+        run: |
+          git push --force
+          git push origin --tags
