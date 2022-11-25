@@ -1,0 +1,6 @@
+{
+  "name": "Release Workflow (Akromio Plugin - Node.js)",
+  "description": "Release workflow.",
+  "categories": ["node"],
+  "filePatterns": ["package.json$"]
+}
