@@ -1,0 +1,6 @@
+{
+  "name": "CI Workflow (Akromio Plugin - Node.js)",
+  "description": "Continuous integration workflow.",
+  "categories": ["node"],
+  "filePatterns": ["package.json$"]
+}
